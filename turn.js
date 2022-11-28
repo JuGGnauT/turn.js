@@ -1423,9 +1423,13 @@ flipMethods = {
 
 	},
 
+	// TODO: _fold => 变换函数
+	// 从屏幕上取一个2P点并应用变换
 	// Takes a 2P point from the screen and applies the transformation
 
 	_fold: function(point) {
+		console.log(point);
+		// point => 就是拖动的角落点
 
 		var that = this,
 			a = 0,
@@ -1649,6 +1653,7 @@ flipMethods = {
 			} else	{
 
 				flipMethods._fold.call(this, c);
+
 				if (dd.effect && !dd.effect.turning)
 					this.animatef(false);
 
@@ -1742,12 +1747,16 @@ flipMethods = {
 		var p1 = data.point || flipMethods._c.call(this, corner.corner, (data.opts.turn) ? data.opts.turn.data().opts.elevation : 0),
 			p4 = flipMethods._c2.call(this, corner.corner);
 
+			console.log(p1, p1, p4, p4);
+
 			this.trigger('flip').
 				animatef({
 					from: 0,
 					to: 1,
 					frame: function(v) {
+						console.log(v);
 						var np = bezier(p1, p1, p4, p4, v);
+
 						corner.x = np.x;
 						corner.y = np.y;
 						flipMethods._showFoldedPage.call(that, corner);
@@ -1797,7 +1806,7 @@ flipMethods = {
 
 		if (!data.disabled) {
 			e = (isTouch) ? e.originalEvent.touches : [e];
-		
+
 			if (data.corner) {
 
 				var pos = data.parent.offset();
